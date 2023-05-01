@@ -4,6 +4,8 @@
 
 > The meaning of the logo is that React is frozen.
 
+> Everything in signalist is a poor imitation of solidjs applied to React.
+
 ## About Signalist
 
 Signalist is a React library that allows for granular updates to elements at the attribute level, using the signal method to avoid full component re-renders.
