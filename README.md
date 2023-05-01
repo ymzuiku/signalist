@@ -1,6 +1,8 @@
 # Signalist
 
-![](packages/example/public/logo.png)
+<img src="packages/example/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
+
+> The meaning of the logo is that React is frozen.
 
 Signalist is a lightweight library for building React applications with a focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
 
