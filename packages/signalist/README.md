@@ -4,6 +4,10 @@
 
 > The meaning of the logo is that React is frozen.
 
+## About Signalist
+
+Signalist is a React library that allows for granular updates to elements at the attribute level, using the signal method to avoid full component re-renders.
+
 Signalist is a lightweight library for building React applications with a focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
 
 Signalist improves performance by only updating the necessary attributes of the components, rather than re-rendering the entire component. This means that only the specific properties that need to be updated will be changed, resulting in faster and more efficient updates.
