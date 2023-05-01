@@ -62,6 +62,8 @@ function MyComponent() {
 - If: Append or remove some element, when value signal change
 - For: Use list data or list signal render a list elements
 
+## Use case
+
 ### Signal in props
 
 ```tsx
