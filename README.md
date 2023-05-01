@@ -4,13 +4,17 @@
 
 > The meaning of the logo is that React is frozen.
 
-Signalist is a lightweight library for building React applications with a focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
+## About Signalist
+
+Signalist is a React library that allows for granular updates to elements at the attribute level, using the signal method to avoid full component re-renders.
+
+Signalist focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
 
 Signalist improves performance by only updating the necessary attributes of the components, rather than re-rendering the entire component. This means that only the specific properties that need to be updated will be changed, resulting in faster and more efficient updates.
 
 Signalist is fully compatible with the existing React ecosystem and components. You can use your favorite React libraries and tools, and still benefit from the performance improvements offered by Signalist.
 
-## Features
+## Benefits
 
 - Signal-based state management for improved performance
 - No re-renders components, only updating the necessary attributes of the components
@@ -118,35 +122,6 @@ function MyComponent() {
 }
 ```
 
-### With react state, useEffect
-
-You can use react main api:
-
-```tsx
-import { useState } from "react";
-import { computed, useSignal, useJSX } from "signalist";
-
-function MyComponent() {
-  const [state, setState] = useState(0);
-  const count = useSignal<number>(0);
-
-  useEffect(() => {
-    console.log("I mount");
-    () => {
-      console.log("I unmount");
-    };
-  }, []);
-
-  return useJSX(
-    <div>
-      <button onClick={() => setState(state + 1)}> add react state</button>
-      <h2 style={style}>count: {count}</h2>
-      <button onClick={() => (count.value += 1)}> add count</button>
-    </div>,
-  );
-}
-```
-
 ### Store signal
 
 `signal` is a native JavaScript method that can be used anywhere, in any framework, to trigger updates directly in React. However, when using `signal` inside a React component, you should use `useSignal`, which is just a `useRef` wrapper around `signal`, to prevent signal loss caused by React's `setState`. If you're using `signalist` exclusively and have never used React's `setState`, you can even use `signal` instead of `useSignal` throughout your project.
@@ -166,6 +141,71 @@ function PageA() {
 // Other page component:
 function PageB() {
   return useJSX(<input onChange={(e) => (username.value += e.target.value)} />);
+}
+```
+
+### Effect
+
+Sure, here's a possible README file for your GitHub repository:
+
+`effect` is a signal subscription function that collects any `signal()` calls used within it, and re-executes the effect whenever the signals mutate. If you only want to retrieve the value of a signal without subscribing to it, you can use `signal.value`, which only reads the value without subscribing.
+
+```jsx
+import React from "react";
+import { signal } from "signalist";
+import Effect from "@signalist/effect";
+
+function MyComponent(props) {
+  const [count, setCount] = React.useState(0);
+
+  // Subscribe to the count signal and log its value
+  effect(() => {
+    console.log(signal(count));
+  });
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+```
+
+In this example, the `effect` function subscribes to the `count` signal and logs its value whenever it changes. Whenever the `count` state is updated, the `effect` function will re-execute and log the new value of the `count` signal.
+
+Using `effect` can simplify the process of subscribing to signals and executing code when they mutate. It provides a simple and intuitive syntax for handling signal subscriptions, making it easier to write efficient and performant React components.
+
+### Effect + component + global signal example:
+
+```tsx
+import { signal, effect } from "signalist";
+
+const userInfo = signal();
+
+// Other page component:
+function PageA() {
+  effect(async () => {
+    const data = fetch("/api/user-info?name" + username()).then((v) => v.json());
+    userInfo.value = data;
+  });
+  return useJSX(<div>User name: {username}</div>);
+}
+
+// Other page component:
+function PageB() {
+  const email = computed(() => userInfo().email);
+
+  return useJSX(
+    <div>
+      <input onChange={(e) => (username.value += e.target.value)} />
+      <div>{email}</div>
+    </div>,
+  );
 }
 ```
 
@@ -228,6 +268,37 @@ The `For` component accepts the following props:
 
 - `each`: An array of data to iterate over.
 - `children`: A function that takes two arguments: the item from the array and its index. The function returns the element or component to be rendered for each item in the array.
+
+### With react state, useEffect
+
+You may not need this use case, but it does work. Signalist is designed to cater to gradual migration of legacy React projects, hence its flexibility in accommodating various use cases.
+
+You can use react main api:
+
+```tsx
+import { useState } from "react";
+import { computed, useSignal, useJSX } from "signalist";
+
+function MyComponent() {
+  const [state, setState] = useState(0);
+  const count = useSignal<number>(0);
+
+  useEffect(() => {
+    console.log("I mount");
+    () => {
+      console.log("I unmount");
+    };
+  }, []);
+
+  return useJSX(
+    <div>
+      <button onClick={() => setState(state + 1)}> add react state</button>
+      <h2 style={style}>count: {count}</h2>
+      <button onClick={() => (count.value += 1)}> add count</button>
+    </div>,
+  );
+}
+```
 
 ## Compatibility
 
