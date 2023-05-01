@@ -1,0 +1,50 @@
+{
+  "name": "workspaces",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "update": "pnpm -r --stream update --latest",
+    "dev": "bunx cross-port-killer 3000 && turbo dev",
+    "lib": "npm run check && turbo lib",
+    "build": "npm run check && turbo build",
+    "tauri:dev": "pnpm -C internal/shell tauri:dev",
+    "clean": "pnpm store prune && node-modules-rm .turb .next node_modules dist .next .DS_Store",
+    "test:run": "vitest run",
+    "test": "vitest",
+    "ts": "tsc --noemit --skipLibCheck --incremental --tsBuildInfoFile './node_modules/.tsbuildinfo'",
+    "ts:watch": "tsc-watch --noemit --skipLibCheck --incremental --tsBuildInfoFile './node_modules/.tsbuildinfo'",
+    "lint": "eslint --cache --fix **/*.{tsx,ts}",
+    "prepare": "husky install",
+    "format": "prettier  --write --loglevel=warn \"**/*.{ts,tsx,md}\"",
+    "check": "npm run ts && npm run lint",
+    "precommit": "npm run format && git add . && npm run check && npm run test:run"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vitest/ui": "^0.30.1",
+    "cross-port-killer": "^1.4.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
+    "link": "^1.5.1",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "terser": "^5.16.9",
+    "tslib": "^2.5.0",
+    "turbo": "^1.9.3",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  },
+  "lint-staged": {
+    "./**/*": "prettier --write --ignore-unknown",
+    "./**/*.{tsx,ts}": "eslint --cache --fix"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "packageManager": "pnpm@6.32.4"
+}

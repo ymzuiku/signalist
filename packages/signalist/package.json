@@ -1,0 +1,12 @@
+{
+  "name": "signalist",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "lib": "node build.cjs"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
