@@ -130,7 +130,7 @@ function MyComponent() {
 }
 ```
 
-### Store signal
+### signal
 
 `signal` is a native JavaScript method that can be used anywhere, in any framework, to trigger updates directly in React. However, when using `signal` inside a React component, you should use `useSignal`, which is just a `useRef` wrapper around `signal`, to prevent signal loss caused by React's `setState`. If you're using `signalist` exclusively and have never used React's `setState`, you can even use `signal` instead of `useSignal` throughout your project.
 
