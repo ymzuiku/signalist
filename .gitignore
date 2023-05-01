@@ -6,9 +6,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.vite
 
+.vite
+.next
 node_modules
+**/node_modules
+**/.next
+**/.vite
 dist
 dist-ssr
 *.local

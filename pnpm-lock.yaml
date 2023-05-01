@@ -40,10 +40,7 @@ importers:
       typescript: 5.0.4
       vitest: 0.30.1_v62t7bj2cgkcjgajvuesklsc7u
 
-  packages/signalist:
-    specifiers: {}
-
-  packages/website:
+  packages/example:
     specifiers:
       '@types/react': ^18.0.28
       '@types/react-dom': ^18.0.11
@@ -58,6 +55,10 @@ importers:
       signalist: workspace:*
       typescript: ^5.0.2
       vite: ^4.3.2
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      signalist: link:../signalist
     devDependencies:
       '@types/react': 18.2.0
       '@types/react-dom': 18.2.1
@@ -67,11 +68,16 @@ importers:
       eslint: 8.39.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.39.0
       eslint-plugin-react-refresh: 0.3.5_eslint@8.39.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      signalist: link:../signalist
       typescript: 5.0.4
       vite: 4.3.3
+
+  packages/signalist:
+    specifiers:
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    devDependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
 packages:
 
@@ -1468,7 +1474,6 @@ packages:
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-    dev: true
 
   /js-yaml/4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
@@ -1584,7 +1589,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: true
 
   /loupe/2.3.6:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}
@@ -1863,7 +1867,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: true
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
@@ -1874,7 +1877,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /resolve-from/4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -1929,7 +1931,6 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /semver/7.5.0:
     resolution: {integrity: sha512-+XC0AD/R7Q2mPSRuy2Id0+CGTZ98+8f+KvwirxOKIEyid+XSx6HbC63p+O4IndTHuX5Z+JxQ0TghCkO5Cg/2HA==}

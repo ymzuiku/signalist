@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useId } from "react";
 import { effect, isSignal } from "../core";
 
 const signalElement = Symbol("signal.element");
@@ -18,11 +17,7 @@ const IgnoreKeys = new Set([
 ]);
 
 export function useJSX(v: any): any {
-  const id = useId();
-  console.time(id);
-  const out = signalJSX(v);
-  console.timeEnd(id);
-  return out;
+  return signalJSX(v);
 }
 
 const noAttr: Record<string, boolean> = {
@@ -39,7 +34,6 @@ function bindingProps(ele: Element, key: string, nextValue: any) {
     } else if (key === "style") {
       Object.assign((ele as any).style, nextValue);
     } else if (noAttr[key]) {
-      console.log("--debug--", key, nextValue);
       (ele as any)[key] = nextValue;
     } else if (typeof nextValue === "string" || typeof nextValue === "number") {
       ele.setAttribute(key, nextValue as string);
@@ -96,9 +90,7 @@ export function signalJSX(tree: any) {
       });
       if (arrayDesp) {
         desp.push(() => {
-          const texts = v
-            .map((child) => signalJSX(isSignal(child) ? child() : child))
-            .join("");
+          const texts = v.map((child) => signalJSX(isSignal(child) ? child() : child)).join("");
           if (ele) {
             ele.textContent = texts;
           }

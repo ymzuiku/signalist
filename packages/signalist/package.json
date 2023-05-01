@@ -1,6 +1,6 @@
 {
   "name": "signalist",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "scripts": {
     "lib": "node build.cjs"
@@ -8,5 +8,17 @@
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
-  }
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ymzuiku/signalist.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/ymzuiku/signalist.git"
+  },
+  "homepage": "git+https://github.com/ymzuiku/signalist.git"
 }

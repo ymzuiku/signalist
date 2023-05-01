@@ -18,7 +18,7 @@ export function For<T>({
   }, EmptyArray);
 
   if (list && list.length) {
-    return list.map(children) as any;
+    return list.map(children);
   }
   return null;
 }
