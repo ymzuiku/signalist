@@ -1,6 +1,6 @@
 # Signalist
 
-![](packages/example/public.png)
+![](packages/example/public/logo.png)
 
 Signalist is a lightweight library for building React applications with a focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
 
