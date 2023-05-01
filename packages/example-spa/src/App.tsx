@@ -1,8 +1,9 @@
 import { CSSProperties, useRef, useState } from "react";
-import { For, If, Signal, computed, signal, useJSX, useSignal } from "signalist";
+import { For, If, Signal, computed, useJSX, useSignal } from "signalist";
+import { signalStorage, useInitStorage } from "signalist/react/signal-storage";
 import "./App.css";
 
-const store = signal<string>("");
+const store = signalStorage<string>("storage", "base");
 
 const RenderProps = function ({
   value,
@@ -141,6 +142,7 @@ const Counter = () => {
 };
 
 const App = () => {
+  useInitStorage();
   return useJSX(
     <>
       <div>

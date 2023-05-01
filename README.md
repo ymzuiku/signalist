@@ -19,7 +19,13 @@ Signalist is fully compatible with the existing React ecosystem and components. 
 - Signal-based state management for improved performance
 - No re-renders components, only updating the necessary attributes of the components
 - Compatible with the existing React ecosystem and components
+- Supports SSR
+- Supports Typescript
 - Lightweight and easy to use
+
+## Compatibility
+
+Signalist is designed to be fully compatible with the existing React ecosystem and components. You can use your favorite React libraries and tools, and still benefit from the performance improvements offered by Signalist.
 
 ## Getting Started
 
@@ -300,9 +306,49 @@ function MyComponent() {
 }
 ```
 
-## Compatibility
+## signalStorage
 
-Signalist is designed to be fully compatible with the existing React ecosystem and components. You can use your favorite React libraries and tools, and still benefit from the performance improvements offered by Signalist.
+Sure! Here's a possible README.md for the `signalStorage` component written entirely in English:
+
+# signalStorage
+
+`signalStorage` is a React component that can automatically persist state to local storage and supports secure SSR hydration. To ensure successful SSR hydration, it's use the `useInitStorage` hook in conjunction.
+
+First, use the `useInitStorage` hooks at the root component of your application:
+
+```jsx
+import { useInitStorage } from 'signalist';
+
+const
+
+function App() {
+  useInitStorage();
+  return (
+    <div>
+      {/* your app */}
+    </div>
+  );
+}
+```
+
+Then, you can use the `signalStorage` hook in any component that needs to persist state, signalStorage will automatically persist to localhost, and will be reloaded after useInitStorage is executed:
+
+```jsx
+import { signalStorage } from "signalist";
+
+// auto load
+const clicks = signalStorage("clicks", "");
+
+function Counter() {
+  return (
+    <div>
+      <p>Count: {clicks}</p>
+      {/* auto save in change */}
+      <button onClick={() => (clicks.value += 1)}>Increment</button>
+    </div>
+  );
+}
+```
 
 ## License
 
