@@ -59,20 +59,13 @@ function MyComponent() {
 
 ### APIs
 
-### core api
-
 - signal: create global signal object
 - computed: use function subscribe some signals
-
-### react hooks api
-
-- useSignal: create signal in react component, useSignal is equal `useRef(signal("your value")).current`
+- useSignal: create signal in react component, it keep value in other react setState change.
 - useJSX: binding react JSX to signal update DOM
-
-### react component api
-
 - If: Append or remove some element, when value signal change
 - For: Use list data or list signal render a list elements
+- signalStorage: signal object, auto load/save from localstorage, `signalStorage` is used in conjunction with `useInitStorage` to ensure hydration consistency during SSR.
 
 ## Usage
 
