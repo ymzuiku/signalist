@@ -62,7 +62,7 @@ function MyComponent() {
 - If: Append or remove some element, when value signal change
 - For: Use list data or list signal render a list elements
 
-## Use case
+## Usage
 
 ### Signal in props
 
@@ -171,6 +171,11 @@ function PageB() {
 
 ### If component
 
+> Because without `re-render`, you can only do this.
+
+The If component is a React component that serves as a replacement for the ternary operator in React. It allows you to conditionally render components based on a boolean expression, without having to resort to a ternary operator.
+To use the If component, import it into your React component and use it as follows:
+
 ```ts
 import { computed, useSignal, useJSX } from "signalist";
 function MyComponent() {
@@ -188,6 +193,14 @@ function MyComponent() {
 ```
 
 ### For component
+
+> Because without `re-render`, you can only do this.
+
+# For Component
+
+The `For` component is a React component that serves as a replacement for the `map()` function in React. It allows you to easily render a list of components based on an array of data, without having to manually iterate over the array and return a list of components.
+
+In this example, the `For` component is used to render a list of items based on an array of data. The `each` prop specifies the array of data to iterate over, and the children of the `For` component are a function that takes two arguments: the item from the array and its index. The function returns the component to be rendered for each item in the array.
 
 ```ts
 import { computed, useSignal, useJSX } from "signalist";
@@ -208,6 +221,13 @@ function MyComponent() {
   );
 }
 ```
+
+#### For component props
+
+The `For` component accepts the following props:
+
+- `each`: An array of data to iterate over.
+- `children`: A function that takes two arguments: the item from the array and its index. The function returns the element or component to be rendered for each item in the array.
 
 ## Compatibility
 
