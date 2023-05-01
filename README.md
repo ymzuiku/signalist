@@ -1,6 +1,6 @@
 # Signalist
 
-<img src="packages/example/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
+<img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 
 > The meaning of the logo is that React is frozen.
 
