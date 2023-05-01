@@ -2,19 +2,19 @@
 
 <img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 
-> The meaning of the logo is that `React` is frozen.
+> The meaning of the logo is that React is frozen.
 
-> Everything in `signalist` is a poor imitation of `solidjs` applied to `React`.
+> Everything in signalist is a poor imitation of solidjs applied to React.
 
 ## About Signalist
 
-`Signalist` is a `React` library that allows for granular updates to elements at the attribute level, using the signal method to avoid full component re-renders.
+Signalist is a React library that allows for granular updates to elements at the attribute level, using the signal method to avoid full component re-renders.
 
-`Signalist` focus on performance and simplicity. With `Signalist`, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
+Signalist focus on performance and simplicity. With Signalist, you can enjoy the benefits of using signals to manage your state, just like you would with SolidJS. This allows you to build reactive user interfaces that only re-render when necessary, improving the performance of your application.
 
-`Signalist` improves performance by only updating the necessary attributes of the components, rather than re-rendering the entire component. This means that only the specific properties that need to be updated will be changed, resulting in faster and more efficient updates.
+Signalist improves performance by only updating the necessary attributes of the components, rather than re-rendering the entire component. This means that only the specific properties that need to be updated will be changed, resulting in faster and more efficient updates.
 
-`Signalist` is fully compatible with the existing `React` ecosystem and components. You can use your favorite `React` libraries and tools, and still benefit from the performance improvements offered by `Signalist`.
+Signalist is fully compatible with the existing React ecosystem and components. You can use your favorite React libraries and tools, and still benefit from the performance improvements offered by Signalist.
 
 ## Benefits
 
@@ -27,14 +27,14 @@
 
 ## Compatibility
 
-`Signalist` is designed to be fully compatible with the existing `React` ecosystem and components. You can use your favorite `React` libraries and tools, and still benefit from the performance improvements offered by `Signalist`.
+Signalist is designed to be fully compatible with the existing React ecosystem and components. You can use your favorite React libraries and tools, and still benefit from the performance improvements offered by Signalist.
 
 ## Getting Started
 
-To get started with `Signalist`, install it using npm:
+To get started with Signalist, install it using npm:
 
 ```
-npm install `signalist`
+npm install signalist
 ```
 
 Now, you can use the `useSignal` hook to create and subscribe to signals in your components:
@@ -132,7 +132,7 @@ function MyComponent() {
 
 ### Store signal
 
-`signal` is a native JavaScript method that can be used anywhere, in any framework, to trigger updates directly in `React`. However, when using `signal` inside a `React` component, you should use `useSignal`, which is just a `useRef` wrapper around `signal`, to prevent signal loss caused by React's `setState`. If you're using `signalist` exclusively and have never used React's `setState`, you can even use `signal` instead of `useSignal` throughout your project.
+`signal` is a native JavaScript method that can be used anywhere, in any framework, to trigger updates directly in React. However, when using `signal` inside a React component, you should use `useSignal`, which is just a `useRef` wrapper around `signal`, to prevent signal loss caused by React's `setState`. If you're using `signalist` exclusively and have never used React's `setState`, you can even use `signal` instead of `useSignal` throughout your project.
 
 ```tsx
 import { signal } from "signalist";
@@ -186,7 +186,7 @@ function MyComponent(props) {
 
 In this example, the `effect` function subscribes to the `count` signal and logs its value whenever it changes. Whenever the `count` state is updated, the `effect` function will re-execute and log the new value of the `count` signal.
 
-Using `effect` can simplify the process of subscribing to signals and executing code when they mutate. It provides a simple and intuitive syntax for handling signal subscriptions, making it easier to write efficient and performant `React` components.
+Using `effect` can simplify the process of subscribing to signals and executing code when they mutate. It provides a simple and intuitive syntax for handling signal subscriptions, making it easier to write efficient and performant React components.
 
 ### Effect + component + global signal example:
 
@@ -221,8 +221,8 @@ function PageB() {
 
 > Because without `re-render`, you can only do this.
 
-The If component is a `React` component that serves as a replacement for the ternary operator in `React`. It allows you to conditionally render components based on a boolean expression, without having to resort to a ternary operator.
-To use the If component, import it into your `React` component and use it as follows:
+The If component is a React component that serves as a replacement for the ternary operator in React. It allows you to conditionally render components based on a boolean expression, without having to resort to a ternary operator.
+To use the If component, import it into your React component and use it as follows:
 
 ```ts
 import { computed, useSignal, useJSX } from "signalist";
@@ -246,7 +246,7 @@ function MyComponent() {
 
 # For Component
 
-The `For` component is a `React` component that serves as a replacement for the `map()` function in `React`. It allows you to easily render a list of components based on an array of data, without having to manually iterate over the array and return a list of components.
+The `For` component is a React component that serves as a replacement for the `map()` function in React. It allows you to easily render a list of components based on an array of data, without having to manually iterate over the array and return a list of components.
 
 In this example, the `For` component is used to render a list of items based on an array of data. The `each` prop specifies the array of data to iterate over, and the children of the `For` component are a function that takes two arguments: the item from the array and its index. The function returns the component to be rendered for each item in the array.
 
@@ -279,9 +279,9 @@ The `For` component accepts the following props:
 
 ### With react state, useEffect
 
-You may not need this use case, but it does work. `Signalist` is designed to cater to gradual migration of legacy `React` projects, hence its flexibility in accommodating various use cases.
+You may not need this use case, but it does work. Signalist is designed to cater to gradual migration of legacy React projects, hence its flexibility in accommodating various use cases.
 
-You can use `React` main api:
+You can use react main api:
 
 ```tsx
 import { useState } from "react";
@@ -314,7 +314,7 @@ Sure! Here's a possible README.md for the `signalStorage` component written enti
 
 # signalStorage
 
-`signalStorage` is a `React` component that can automatically persist state to local storage and supports secure SSR hydration. To ensure successful SSR hydration, it's use the `useInitStorage` hook in conjunction.
+`signalStorage` is a React component that can automatically persist state to local storage and supports secure SSR hydration. To ensure successful SSR hydration, it's use the `useInitStorage` hook in conjunction.
 
 First, use the `useInitStorage` hooks at the root component of your application:
 
@@ -354,7 +354,7 @@ function Counter() {
 
 ## License
 
-`Signalist` is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
+Signalist is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
 
 ## Contributing
 
