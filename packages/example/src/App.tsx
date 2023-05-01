@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useRef, useState } from "react";
 import { For, If, Signal, computed, signal, useJSX, useSignal } from "signalist";
 import "./App.css";
 
@@ -21,10 +21,40 @@ const RenderProps = function ({
   );
 };
 
+const Memory = () => {
+  const bigSignal = useSignal([""]);
+  let bigLocal = [""];
+  const bigRef = useRef([""]);
+  const handleAddSignal = () => {
+    bigSignal.value = [...bigSignal.value, Array(999999).fill("aaaaaaaaaaaaaaaaaaaa").join("")];
+  };
+
+  const handleAddLocal = () => {
+    bigLocal = [...bigLocal, Array(999999).fill("aaaaaaaaaaaaaaaaaaa").join("")];
+  };
+
+  const handleAddRef = () => {
+    bigRef.current = [...bigRef.current, Array(999999).fill("aaaaaaaaaaaaaaaaaaa").join("")];
+  };
+
+  return useJSX(
+    <div>
+      <h2>Member GC checker component</h2>
+      <div>Sub component last render time: {new Date().toISOString()}</div>
+      <div>bigSignal.length: {computed(() => bigSignal().length)}</div>
+      <div>bigLocal.length: {bigSignal.length}</div>
+      <div>
+        <button onClick={handleAddSignal}>add memory in signal</button>
+        <button onClick={handleAddLocal}>add memory in local</button>
+        <button onClick={handleAddRef}>add memory in reactRef</button>
+      </div>
+    </div>,
+  );
+};
+
 const Sub = ({ value }: { value: Signal<number> }) => {
   const count = useSignal(0);
-
-  const num = useSignal("string value");
+  const str = useSignal<string>("string value");
 
   return useJSX(
     <div>
@@ -32,9 +62,9 @@ const Sub = ({ value }: { value: Signal<number> }) => {
       <div>Sub component last render time: {new Date().toISOString()}</div>
       <div>Props value: {value}</div>
       <div>
-        <button onClick={() => (count.value += 1)}>now sub count:{count}</button>
-        <button onClick={() => (num.value += 1)}>now sub num: {num}</button>
-        <RenderProps value={num}>{(v) => <div>world: {v}</div>}</RenderProps>
+        <button onClick={() => (count.value += 1)}>now sub + count:{count}</button>
+        <button onClick={() => (count.value -= 1)}>now sub - count:{count}</button>
+        <RenderProps value={str}>{(v) => <div>world: {v}</div>}</RenderProps>
       </div>
     </div>,
   );
@@ -83,6 +113,7 @@ const Counter = () => {
         <h2>If count less 5, show {`<Sub />`}</h2>
         <If value={() => count() < 5}>
           <Sub value={num} />
+          <Memory />
         </If>
         <If value={() => count() >= 5}>
           <h2>
