@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLayoutEffect, useState } from "react";
 import { EmptyArray, Signal, effect } from "../core";
+import { signalJSX } from "./use-jsx";
 
 export function For<T>({
   each,
@@ -18,7 +19,7 @@ export function For<T>({
   }, EmptyArray);
 
   if (list && list.length) {
-    return list.map(children);
+    return signalJSX(list.map(children));
   }
   return null;
 }

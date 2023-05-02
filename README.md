@@ -1,5 +1,9 @@
 # Signalist
 
+⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
+⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
+⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
+
 <img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 
 > The meaning of the logo is that React is frozen.
@@ -40,15 +44,15 @@ npm install signalist
 Now, you can use the `useSignal` hook to create and subscribe to signals in your components:
 
 ```tsx
-import { useSignal, useJSX } from "signalist";
+import { useSignal, signalJSX } from "signalist";
 
 function MyComponent() {
   const count = useSignal<number>(0);
 
   console.log("render once!");
 
-  // useJSX hooks, auto binding signal to elements
-  return useJSX(
+  // signalJSX hooks, auto binding signal to elements
+  return signalJSX(
     <div>
       <p>Count: {count}</p>
       <button onClick={() => count.value + 1}>Increment</button>
@@ -62,7 +66,7 @@ function MyComponent() {
 - signal: create global signal object
 - computed: use function subscribe some signals
 - useSignal: create signal in react component, it keep value in other react setState change.
-- useJSX: binding react JSX to signal update DOM
+- signalJSX: binding react JSX to signal update DOM
 - If: Append or remove some element, when value signal change
 - For: Use list data or list signal render a list elements
 - signalStorage: signal object, auto load/save from localstorage, `signalStorage` is used in conjunction with `useInitStorage` to ensure hydration consistency during SSR.
@@ -72,22 +76,22 @@ function MyComponent() {
 ### Signal in props
 
 ```tsx
-import { useSignal, useJSX, Signal } from "signalist";
+import { useSignal, signalJSX, Signal } from "signalist";
 
 function PageA({ count }: { count: Signal<T> }) {
   // no rerender, only reset div element textcontent:
-  return useJSX(<div>Count: {count}</div>);
+  return signalJSX(<div>Count: {count}</div>);
 }
 
 function PageB({ count }: { count: Signal<T> }) {
   // no rerender
-  return useJSX(<div onClick={() => (count.value += 1)}>update value</div>);
+  return signalJSX(<div onClick={() => (count.value += 1)}>update value</div>);
 }
 
 function MyComponent() {
   const count = useSignal<number>(0);
   // no rerender
-  return useJSX(
+  return signalJSX(
     <div>
       <PageA count={count} />
       <PageB count={count} />
@@ -101,7 +105,7 @@ function MyComponent() {
 Use `signal()` in `computed`, computed can auto subscribe signal change, and return a new value
 
 ```tsx
-import { computed, useSignal, useJSX } from "signalist";
+import { computed, useSignal, signalJSX } from "signalist";
 
 function MyComponent() {
   const count = useSignal<number>(0);
@@ -114,7 +118,7 @@ function MyComponent() {
     color: "#00f",
   }));
 
-  return useJSX(
+  return signalJSX(
     <div>
       <h2 style={style}>count: {count}</h2>
       <button onClick={() => (count.value += 1)}> add count</button>
@@ -136,12 +140,12 @@ const username = signal<string>("user-name");
 
 // Other page component:
 function PageA() {
-  return useJSX(<div>User name: {username}</div>);
+  return signalJSX(<div>User name: {username}</div>);
 }
 
 // Other page component:
 function PageB() {
-  return useJSX(<input onChange={(e) => (username.value += e.target.value)} />);
+  return signalJSX(<input onChange={(e) => (username.value += e.target.value)} />);
 }
 ```
 
@@ -194,14 +198,14 @@ function PageA() {
     const data = fetch("/api/user-info?name" + username()).then((v) => v.json());
     userInfo.value = data;
   });
-  return useJSX(<div>User name: {username}</div>);
+  return signalJSX(<div>User name: {username}</div>);
 }
 
 // Other page component:
 function PageB() {
   const email = computed(() => userInfo().email);
 
-  return useJSX(
+  return signalJSX(
     <div>
       <input onChange={(e) => (username.value += e.target.value)} />
       <div>{email}</div>
@@ -218,11 +222,11 @@ The If component is a React component that serves as a replacement for the terna
 To use the If component, import it into your React component and use it as follows:
 
 ```ts
-import { computed, useSignal, useJSX } from "signalist";
+import { computed, useSignal, signalJSX } from "signalist";
 function MyComponent() {
   const show = useSignal<boolean>(false);
   // no rerender
-  return useJSX(
+  return signalJSX(
     <div>
       <button onClick={() => (show.value = !show.value)}>Change show</button>
       <If value={show}>
@@ -244,11 +248,11 @@ The `For` component is a React component that serves as a replacement for the `m
 In this example, the `For` component is used to render a list of items based on an array of data. The `each` prop specifies the array of data to iterate over, and the children of the `For` component are a function that takes two arguments: the item from the array and its index. The function returns the component to be rendered for each item in the array.
 
 ```ts
-import { computed, useSignal, useJSX } from "signalist";
+import { computed, useSignal, signalJSX } from "signalist";
 function MyComponent() {
   const list = useSignal([]);
   // no rerender
-  return useJSX(
+  return signalJSX(
     <div>
       <input
         onChange={(e) => {
@@ -278,7 +282,7 @@ You can use react main api:
 
 ```tsx
 import { useState } from "react";
-import { computed, useSignal, useJSX } from "signalist";
+import { computed, useSignal, signalJSX } from "signalist";
 
 function MyComponent() {
   const [state, setState] = useState(0);
@@ -291,7 +295,7 @@ function MyComponent() {
     };
   }, []);
 
-  return useJSX(
+  return signalJSX(
     <div>
       <button onClick={() => setState(state + 1)}> add react state</button>
       <h2 style={style}>count: {count}</h2>

@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CSSProperties, useRef, useState } from "react";
-import { For, If, Signal, computed, useJSX, useSignal } from "signalist";
-import { signalStorage, useInitStorage } from "signalist/react/signal-storage";
+import { For, If, Signal, computed, signalJSX, signalStorage, useInitStorage, useSignal } from "signalist";
 import "./App.css";
 
 const store = signalStorage<string>("storage", "base");
@@ -13,16 +13,16 @@ const RenderProps = function ({
   children: (value: Signal<string>) => React.ReactNode;
 }) {
   const v = computed(() => value() + Date.now());
-  return useJSX(
+  return signalJSX(
     <div>
       <div>Render props component last render time: {new Date().toISOString()}</div>
       <div>global store: {store}</div>
-      <div>value: {useJSX(children(v))}</div>
+      <div>value: {signalJSX(children(v))}</div>
     </div>,
   );
 };
 
-const Memory = () => {
+const Memory = ({ children }: any) => {
   const bigSignal = useSignal([""]);
   let bigLocal = [""];
   const bigRef = useRef([""]);
@@ -38,7 +38,7 @@ const Memory = () => {
     bigRef.current = [...bigRef.current, Array(999999).fill("aaaaaaaaaaaaaaaaaaa").join("")];
   };
 
-  return useJSX(
+  return signalJSX(
     <div>
       <h2>Member GC checker component</h2>
       <div>Sub component last render time: {new Date().toISOString()}</div>
@@ -49,6 +49,7 @@ const Memory = () => {
         <button onClick={handleAddLocal}>add memory in local</button>
         <button onClick={handleAddRef}>add memory in reactRef</button>
       </div>
+      <div>children:{children} </div>
     </div>,
   );
 };
@@ -57,7 +58,7 @@ const Sub = ({ value }: { value: Signal<number> }) => {
   const count = useSignal(0);
   const str = useSignal<string>("string value");
 
-  return useJSX(
+  return signalJSX(
     <div>
       <h2>Sub component</h2>
       <div>Sub component last render time: {new Date().toISOString()}</div>
@@ -94,7 +95,7 @@ const Counter = () => {
     }
   };
 
-  return useJSX(
+  return signalJSX(
     <div className="card">
       <div>Counter component last render time: {new Date().toISOString()}</div>
       <main style={{ display: "flex", flexDirection: "column" }}>
@@ -114,7 +115,7 @@ const Counter = () => {
         <h2>If count less 5, show {`<Sub />`}</h2>
         <If value={() => count() < 5}>
           <Sub value={num} />
-          <Memory />
+          <Memory>memory children num: {num}</Memory>
         </If>
         <If value={() => count() >= 5}>
           <h2>
@@ -143,7 +144,7 @@ const Counter = () => {
 
 const App = () => {
   useInitStorage();
-  return useJSX(
+  return signalJSX(
     <>
       <div>
         <a target="_blank">

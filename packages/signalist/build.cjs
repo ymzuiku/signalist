@@ -37,4 +37,10 @@ const runBuild = () => {
   }).catch(() => process.exit(1));
 };
 
+fs.watch("./", { recursive: true }, (eventType, filename) => {
+  if (/\.(js|cjs|mjs)$/.test(filename)) {
+    return;
+  }
+  runBuild();
+});
 runBuild();

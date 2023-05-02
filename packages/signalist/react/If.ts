@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLayoutEffect, useState } from "react";
 import { EmptyArray, effect } from "../core";
+import { signalJSX } from "./use-jsx";
 
 export function If({ value: signal, children }: { value: () => any; children: any }) {
   const [show, setShow] = useState(!!signal());
@@ -11,5 +12,5 @@ export function If({ value: signal, children }: { value: () => any; children: an
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, EmptyArray);
 
-  return show ? children : null;
+  return show ? signalJSX(children) : null;
 }

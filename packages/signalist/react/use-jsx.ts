@@ -16,45 +16,58 @@ const IgnoreKeys = new Set([
   "_signalComponent",
 ]);
 
-export function useJSX(v: any): any {
-  return signalJSX(v);
-}
-
 const noAttr: Record<string, boolean> = {
   value: true,
   className: true,
 };
 
 function bindingProps(ele: Element, key: string, nextValue: any) {
-  requestAnimationFrame(() => {
-    if (key === "children") {
-      ele.textContent = nextValue;
-    } else if (key === "value") {
+  if (key === "children") {
+    ele.textContent = nextValue;
+  } else if (key === "value") {
+    requestAnimationFrame(() => {
       (ele as any).value = nextValue;
-    } else if (key === "style") {
-      Object.assign((ele as any).style, nextValue);
-    } else if (noAttr[key]) {
-      (ele as any)[key] = nextValue;
-    } else if (typeof nextValue === "string" || typeof nextValue === "number") {
-      ele.setAttribute(key, nextValue as string);
-    } else if (typeof nextValue === "boolean") {
-      if (nextValue) {
-        ele.setAttribute(key, "");
-      } else {
-        ele.removeAttribute(key);
-      }
+    });
+  } else if (key === "style") {
+    Object.assign((ele as any).style, nextValue);
+  } else if (noAttr[key]) {
+    (ele as any)[key] = nextValue;
+  } else if (typeof nextValue === "string" || typeof nextValue === "number") {
+    ele.setAttribute(key, nextValue as string);
+  } else if (typeof nextValue === "boolean") {
+    if (nextValue) {
+      ele.setAttribute(key, "");
     } else {
-      (ele as any)[key] = nextValue;
+      ele.removeAttribute(key);
     }
-  });
+  } else {
+    (ele as any)[key] = nextValue;
+  }
+}
+
+function flattenArray(arr: any[]): any[] {
+  let result: any[] = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      result = result.concat(flattenArray(arr[i]));
+    } else {
+      result.push(arr[i]);
+    }
+  }
+  return result;
 }
 
 export function signalJSX(tree: any) {
-  if (!tree || tree._signalComponent || typeof tree.type !== "string") {
+  if (!tree || tree._signalComponent) {
     return tree;
   }
 
   const { props, ref, ...rest } = tree;
+
+  // TODO: need fix other type
+  if (typeof tree.type !== "string") {
+    return tree;
+  }
 
   const nextProps = {} as any;
 
@@ -76,12 +89,13 @@ export function signalJSX(tree: any) {
         }
       });
       nextProps[key] = v();
+
       return;
     }
 
     if (key === "children" && Array.isArray(v)) {
       let arrayDesp = false;
-      const children = v.map((child) => {
+      const children = flattenArray(v).map((child) => {
         if (isSignal(child)) {
           arrayDesp = true;
           return signalJSX(child());
@@ -90,7 +104,9 @@ export function signalJSX(tree: any) {
       });
       if (arrayDesp) {
         desp.push(() => {
-          const texts = v.map((child) => signalJSX(isSignal(child) ? child() : child)).join("");
+          const texts = flattenArray(v)
+            .map((child) => signalJSX(isSignal(child) ? child() : child))
+            .join("");
           if (ele) {
             ele.textContent = texts;
           }
