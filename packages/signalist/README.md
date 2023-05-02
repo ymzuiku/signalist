@@ -1,6 +1,8 @@
 # Signalist
 
-⚠️ The package is still in the experimental stage..
+⚠️ The package is still in the experimental stage...
+
+⚠️ The current performance is not as good as React Fiber: [https://signalist-demo.vercel.app/](https://signalist-demo.vercel.app/)
 
 <img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 
