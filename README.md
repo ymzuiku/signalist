@@ -301,10 +301,6 @@ function MyComponent() {
 }
 ```
 
-## signalStorage
-
-Sure! Here's a possible README.md for the `signalStorage` component written entirely in English:
-
 # signalStorage
 
 `signalStorage` is a React component that can automatically persist state to local storage and supports secure SSR hydration. To ensure successful SSR hydration, it's use the `useInitStorage` hook in conjunction.
