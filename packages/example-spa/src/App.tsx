@@ -55,20 +55,28 @@ const Memory = ({ children }: any) => {
   );
 };
 
-const Sub = ({ value }: { value: Signal<number> }) => {
+const Sub = ({ value, children }: { value: Signal<number>; children: any }) => {
   const count = useSignal(0);
   const str = useSignal<string>("string value");
-
   return signalJSX(
     <div>
       <h2>Sub component</h2>
 
       <div>Sub component last render time: {new Date().toISOString()}</div>
       <div>Props value: {value}</div>
+      <div>sub children value: {children}</div>
       <div>
         <button onClick={() => (count.value += 1)}>now sub + count:{count}</button>
         <button onClick={() => (count.value -= 1)}>now sub - count:{count}</button>
-        <RenderProps value={str}>{(v) => signalJSX(<div>world: {v}</div>)}</RenderProps>
+        <RenderProps value={str}>
+          {(v) =>
+            signalJSX(
+              <div>
+                render world: {v} {count}
+              </div>,
+            )
+          }
+        </RenderProps>
       </div>
     </div>,
   );
@@ -128,7 +136,8 @@ const Counter = () => {
         </div>
         <h2>If count less 5, show {`<Sub />`}</h2>
         <If value={() => count() < 5}>
-          <Sub value={num} />
+          <Sub value={num}>the value {num}</Sub>
+          <Sub value={num}>{num}</Sub>
           <Memory>memory children num: {num}</Memory>
         </If>
         <If value={() => count() >= 5}>
@@ -147,6 +156,13 @@ const Counter = () => {
           <div key={index}>
             {item}listlist {num}
           </div>
+        )}
+      </For>
+      <For each={list}>
+        {(_, index) => (
+          <Sub key={index} value={num}>
+            the list sub children num: {num}
+          </Sub>
         )}
       </For>
       <h2>Global store signal</h2>

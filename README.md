@@ -274,6 +274,8 @@ The `For` component accepts the following props:
 
 ### With react state, useEffect
 
+> Slower than React by default, because every time `setState` is called in React, it recreates the `signalJSX`.
+
 You may not need this use case, but it does work. Signalist is designed to cater to gradual migration of legacy React projects, hence its flexibility in accommodating various use cases.
 
 You can use react main api:
@@ -295,8 +297,10 @@ function MyComponent() {
 
   return signalJSX(
     <div>
+      {/* slowly: */}
       <button onClick={() => setState(state + 1)}> add react state</button>
       <h2 style={style}>count: {count}</h2>
+      {/* faster: */}
       <button onClick={() => (count.value += 1)}> add count</button>
     </div>,
   );

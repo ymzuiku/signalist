@@ -5,8 +5,6 @@ import { bindingProps } from "./bind-props";
 
 const signalElement = Symbol("signal.element");
 
-// const ignoreTypes = new Set([If, For]);
-
 const ignoreKeys = new Set([
   "$$typeof",
   "key",
@@ -43,7 +41,15 @@ const getChildrens = (children: any[]) => {
   return [childs, arrayDesp] as const;
 };
 
-// const isSSR = typeof window === "undefined";
+const getChildrenNoToSignalJSX = (children: any[]) => {
+  const childs = flattenArray(children).map((child) => {
+    if (isSignal(child)) {
+      return child();
+    }
+    return child;
+  });
+  return childs;
+};
 
 export function signalJSX(tree: any) {
   if (!tree || tree._signalComponent) {
@@ -54,11 +60,12 @@ export function signalJSX(tree: any) {
   if (!props) {
     return tree;
   }
-  if (typeof rest.type === "function") {
+  const jsxType = typeof tree.type;
+  const isForward = jsxType === "object" && typeof tree.type.render === "function";
+
+  if (jsxType !== "string" && !isForward) {
     return tree;
   }
-
-  const isElement = typeof tree.type === "string";
 
   const nextProps = { ...props };
 
@@ -80,7 +87,7 @@ export function signalJSX(tree: any) {
         const [children, arrayDesp] = getChildrens(v);
         if (arrayDesp) {
           desp.push(() => {
-            const [childs] = getChildrens(v);
+            const childs = getChildrenNoToSignalJSX(v);
             bindingProps(ele, key, childs.join(""));
           });
         }
@@ -120,7 +127,7 @@ export function signalJSX(tree: any) {
     desp.forEach((fn) => fn());
   });
 
-  if (isElement && desp.length) {
+  if (desp.length) {
     nextRef = (r: Element) => {
       ele = r;
       ref && ref(r);
