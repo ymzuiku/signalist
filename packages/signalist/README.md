@@ -4,7 +4,7 @@
 
 ⚠️ The current performance is not as good as React Fiber: [https://signalist-demo.vercel.app/](https://signalist-demo.vercel.app/)
 
-<img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
+<img src="packages/examples-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 
 > The meaning of the logo is that React is frozen.
 
