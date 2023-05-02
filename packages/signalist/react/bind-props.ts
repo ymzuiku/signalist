@@ -4,7 +4,10 @@ const noAttr: Record<string, boolean> = {
   className: true,
 };
 
-export function bindingProps(ele: Element, key: string, nextValue: any) {
+export function bindingProps(ele: Element | null, key: string, nextValue: any) {
+  if (!ele) {
+    return;
+  }
   if (key === "children") {
     ele.textContent = nextValue;
   } else if (key === "value") {

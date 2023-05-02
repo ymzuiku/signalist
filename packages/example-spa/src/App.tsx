@@ -15,9 +15,10 @@ const RenderProps = function ({
   const v = computed(() => value() + Date.now());
   return signalJSX(
     <div>
+      <h2>Render props component</h2>
       <div>Render props component last render time: {new Date().toISOString()}</div>
       <div>global store: {store}</div>
-      <div>value: {signalJSX(children(v))}</div>
+      <div>value: {children(v)}</div>
     </div>,
   );
 };
@@ -61,12 +62,13 @@ const Sub = ({ value }: { value: Signal<number> }) => {
   return signalJSX(
     <div>
       <h2>Sub component</h2>
+
       <div>Sub component last render time: {new Date().toISOString()}</div>
       <div>Props value: {value}</div>
       <div>
         <button onClick={() => (count.value += 1)}>now sub + count:{count}</button>
         <button onClick={() => (count.value -= 1)}>now sub - count:{count}</button>
-        <RenderProps value={str}>{(v) => <div>world: {v}</div>}</RenderProps>
+        <RenderProps value={str}>{(v) => signalJSX(<div>world: {v}</div>)}</RenderProps>
       </div>
     </div>,
   );
@@ -98,6 +100,18 @@ const Counter = () => {
   return signalJSX(
     <div className="card">
       <div>Counter component last render time: {new Date().toISOString()}</div>
+      <button onClick={() => (count.value += 1)}>add count: {count}</button>
+      <div>sub 1 tree count: {count}</div>
+      <div>
+        <div data-tree="2">sub 2 tree count: {count}</div>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div data-tree="4">sub 4 tree count: {count}</div>
+          </div>
+        </div>
+      </div>
       <main style={{ display: "flex", flexDirection: "column" }}>
         <div style={style}>{text}</div>
         <h2>Double bind</h2>
@@ -127,7 +141,14 @@ const Counter = () => {
         If change input text, add list item, if input text is {`""`}, clean list, now list length:{" "}
         {computed(() => list().length)}
       </h2>
-      <For each={list}>{(item, index) => <div key={index}>{item}listlist</div>}</For>
+      {/* {computed(() => list().length)} */}
+      <For each={list}>
+        {(item, index) => (
+          <div key={index}>
+            {item}listlist {num}
+          </div>
+        )}
+      </For>
       <h2>Global store signal</h2>
       <input
         value={store}

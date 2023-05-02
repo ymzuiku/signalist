@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useLayoutEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { EmptyArray, Signal, effect } from "../core";
 import { signalJSX } from "./use-jsx";
 
@@ -10,16 +10,15 @@ export function For<T>({
   each: (() => T[]) | Signal<T[]>;
   children: (item: T, index: number) => JSX.Element;
 }) {
-  const [list, setList] = useState(each());
-  useLayoutEffect(() => {
+  const [list, setList] = useState<any[]>(each());
+  useMemo(() => {
     effect(() => {
       setList(each());
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, EmptyArray);
 
   if (list && list.length) {
-    return signalJSX(list.map(children));
+    return signalJSX(<>{list.map(children)}</>);
   }
   return null;
 }

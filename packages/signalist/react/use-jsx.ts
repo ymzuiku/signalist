@@ -5,7 +5,9 @@ import { bindingProps } from "./bind-props";
 
 const signalElement = Symbol("signal.element");
 
-const IgnoreKeys = new Set([
+// const ignoreTypes = new Set([If, For]);
+
+const ignoreKeys = new Set([
   "$$typeof",
   "key",
   "ref",
@@ -29,6 +31,20 @@ function flattenArray(arr: any[]): any[] {
   return result;
 }
 
+const getChildrens = (children: any[]) => {
+  let arrayDesp = false;
+  const childs = flattenArray(children).map((child) => {
+    if (isSignal(child)) {
+      arrayDesp = true;
+      return signalJSX(child());
+    }
+    return signalJSX(child);
+  });
+  return [childs, arrayDesp] as const;
+};
+
+// const isSSR = typeof window === "undefined";
+
 export function signalJSX(tree: any) {
   if (!tree || tree._signalComponent) {
     return tree;
@@ -38,25 +54,55 @@ export function signalJSX(tree: any) {
   if (!props) {
     return tree;
   }
-
-  // TODO: need fix other type
-  if (typeof tree.type !== "string") {
+  if (typeof rest.type === "function") {
     return tree;
   }
 
-  const nextProps = {} as any;
+  const isElement = typeof tree.type === "string";
+
+  const nextProps = { ...props };
 
   const desp: any[] = [];
   let ele: Element | null;
+  let nextRef: any = null;
 
   Object.keys(props).forEach((key) => {
     const v = props[key];
     if (v === null || v === void 0) {
-      nextProps[key] = v;
-    }
-    if (IgnoreKeys.has(key)) {
-      nextProps[key] = v;
       return;
+    }
+    if (ignoreKeys.has(key)) {
+      return;
+    }
+
+    if (key === "children") {
+      if (Array.isArray(v)) {
+        const [children, arrayDesp] = getChildrens(v);
+        if (arrayDesp) {
+          desp.push(() => {
+            const [childs] = getChildrens(v);
+            bindingProps(ele, key, childs.join(""));
+          });
+        }
+        nextProps.children = children;
+        return;
+      } else {
+        if (isSignal(v)) {
+          desp.push(() => {
+            const nextValue = v();
+            bindingProps(ele, key, nextValue);
+          });
+
+          const ch = v();
+          if (isSignal(ch)) {
+            nextProps.children = ch();
+          } else {
+            nextProps.children = v();
+          }
+        } else {
+          nextProps.children = signalJSX(v);
+        }
+      }
     }
 
     if (isSignal(v)) {
@@ -67,42 +113,14 @@ export function signalJSX(tree: any) {
         }
       });
       nextProps[key] = v();
-
-      return;
     }
-
-    if (key === "children" && Array.isArray(v)) {
-      let arrayDesp = false;
-      const children = flattenArray(v).map((child) => {
-        if (isSignal(child)) {
-          arrayDesp = true;
-          return signalJSX(child());
-        }
-        return signalJSX(child);
-      });
-      if (arrayDesp) {
-        desp.push(() => {
-          const texts = flattenArray(v)
-            .map((child) => signalJSX(isSignal(child) ? child() : child))
-            .join("");
-          if (ele) {
-            ele.textContent = texts;
-          }
-        });
-      }
-      nextProps[key] = children;
-      return;
-    }
-
-    nextProps[key] = v;
   });
 
   effect(() => {
     desp.forEach((fn) => fn());
   });
 
-  let nextRef = null;
-  if (desp.length) {
+  if (isElement && desp.length) {
     nextRef = (r: Element) => {
       ele = r;
       ref && ref(r);
