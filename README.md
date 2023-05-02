@@ -1,8 +1,6 @@
 # Signalist
 
-⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
-⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
-⚠️ Please use [https://millionjs.org/](https://millionjs.org/).
+⚠️ The package is still in the experimental stage..
 
 <img src="packages/example-spa/public/logo.png" style="margin: 10px auto; text-align:center; height:200px" />
 

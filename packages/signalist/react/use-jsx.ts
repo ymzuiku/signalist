@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { effect, isSignal } from "../core";
+import { bindingProps } from "./bind-props";
 
 const signalElement = Symbol("signal.element");
 
@@ -15,35 +16,6 @@ const IgnoreKeys = new Set([
   "_signal",
   "_signalComponent",
 ]);
-
-const noAttr: Record<string, boolean> = {
-  value: true,
-  className: true,
-};
-
-function bindingProps(ele: Element, key: string, nextValue: any) {
-  if (key === "children") {
-    ele.textContent = nextValue;
-  } else if (key === "value") {
-    requestAnimationFrame(() => {
-      (ele as any).value = nextValue;
-    });
-  } else if (key === "style") {
-    Object.assign((ele as any).style, nextValue);
-  } else if (noAttr[key]) {
-    (ele as any)[key] = nextValue;
-  } else if (typeof nextValue === "string" || typeof nextValue === "number") {
-    ele.setAttribute(key, nextValue as string);
-  } else if (typeof nextValue === "boolean") {
-    if (nextValue) {
-      ele.setAttribute(key, "");
-    } else {
-      ele.removeAttribute(key);
-    }
-  } else {
-    (ele as any)[key] = nextValue;
-  }
-}
 
 function flattenArray(arr: any[]): any[] {
   let result: any[] = [];
@@ -63,6 +35,9 @@ export function signalJSX(tree: any) {
   }
 
   const { props, ref, ...rest } = tree;
+  if (!props) {
+    return tree;
+  }
 
   // TODO: need fix other type
   if (typeof tree.type !== "string") {
@@ -76,6 +51,9 @@ export function signalJSX(tree: any) {
 
   Object.keys(props).forEach((key) => {
     const v = props[key];
+    if (v === null || v === void 0) {
+      nextProps[key] = v;
+    }
     if (IgnoreKeys.has(key)) {
       nextProps[key] = v;
       return;
